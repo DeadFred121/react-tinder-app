@@ -8,8 +8,13 @@ class App extends Component {
   state = {
     firstName: 'Big',
     lastName: 'Steve',
-    imageURL: 'https://randomuser.me/api/portraits/men/83.jpg'
+    imageURL: 'https://randomuser.me/api/portraits/men/83.jpg',
+
+    // Setting the editing/viewing state
+    editing: false
   }
+
+
 
   // When first name changes
   onChangeFirstName = (event) => {
@@ -21,6 +26,7 @@ class App extends Component {
     }))
   }
 
+  // When last name changes
   onChangeLastName = (event) => {
     console.log('Last name changed')
     const input = event.target;
@@ -30,6 +36,7 @@ class App extends Component {
     }))
   }
 
+  // When Image URL changes
   onChangeImageURL = (event) => {
     console.log('Image URL changed')
     const input = event.target;
@@ -39,10 +46,18 @@ class App extends Component {
     }))
   }
 
+  // When toggling between editing and viewing
+  onClickEdit = () => {
+    console.log('Toggle editing')
+    this.setState(prevState => ({
+      editing: !prevState.editing
+    }))
+  }
+
   render() {
 
     // grab values from state
-    let { firstName, lastName, imageURL } = this.state;
+    let { firstName, lastName, imageURL, editing } = this.state;
 
     return (
       <div className="App">
@@ -50,19 +65,25 @@ class App extends Component {
           firstName={ firstName }
           lastName={ lastName }
           imageURL={ imageURL } />
+          <button onClick={ this.onClickEdit }>Edit Profile</button>
 
-        <label>
-          First name:
-          <input type="text" value={ firstName } onChange={ this.onChangeFirstName } />
-        </label>
-        <label>
-          Last name:
-          <input type="text" value={ lastName } onChange={ this.onChangeLastName } />
-        </label>
-        <label>
-          Image URL:
-          <input type="text" value={ imageURL } onChange={ this.onChangeImageURL } />
-        </label>
+        {
+          editing && 
+        (<form className="profile-form">
+          <label>
+            First name:
+            <input type="text" value={ firstName } onChange={ this.onChangeFirstName } />
+          </label>
+          <label>
+            Last name:
+            <input type="text" value={ lastName } onChange={ this.onChangeLastName } />
+          </label>
+          <label>
+            Image URL:
+            <input type="text" value={ imageURL } onChange={ this.onChangeImageURL } />
+          </label>
+        </form>)
+        }
 
       </div>
     );
